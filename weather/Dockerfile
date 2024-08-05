@@ -2,8 +2,8 @@ FROM python
 
 ENV REDIS_HOST=redis
 
-ADD . /DockerProject/weather
-WORKDIR /DockerProject/weather
+ADD . /weather
+WORKDIR /weather
 
 RUN pip install -r requirements.txt
 

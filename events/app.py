@@ -1,11 +1,8 @@
-from flask import Flask, request, render_template
-from flask_session import Session
+from flask import Flask, request
 from flask_restful import Resource, Api
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import *
 
-import json
 import os
 import logging
 import datetime
@@ -14,7 +11,8 @@ import time
 app = Flask('events')
 DB_USER = os.environ.get('DB_USER') or 'event'
 DB_PASS = os.environ.get('DB_PASSWORD') or 'abc123'
-DB_HOST = os.environ.get('DB_HOST') or '127.0.0.1'  #prin 127.0.0.1 se conecteaza prin TCP, daca e localhost, se conecteaza prin sockets
+DB_HOST = os.environ.get(
+    'DB_HOST') or '127.0.0.1'  # prin 127.0.0.1 se conecteaza prin TCP, daca e localhost, se conecteaza prin sockets
 PORT = int(os.environ.get('PORT') or 5000)
 HOST = os.environ.get('HOST') or '0.0.0.0'
 
@@ -28,6 +26,7 @@ app.logger.setLevel(logging.INFO)
 api = Api(app)
 time.sleep(30)
 db = SQLAlchemy(app)
+
 
 class Events(Resource):
     def get(self):
@@ -43,7 +42,7 @@ class Events(Resource):
     def put(self):
         event_id = request.form.get('id')
         if not event_id:
-            return 'Event ID missing', 401 #TODO check HTTP error codes
+            return 'Event ID missing', 401  #TODO check HTTP error codes
         try:
             event_id = int(event_id)
         except ValueError as e:
@@ -53,7 +52,7 @@ class Events(Resource):
         description = request.form.get('description')
         date = request.form.get('date')
         date = datetime.date(*[int(s) for s in date.split('-')]) if date else datetime.date.today()
-        event = db.session.query(Event).filter(Event.id==event_id)
+        event = db.session.query(Event).filter(Event.id == event_id)
         if event:
             event = event.first()
             event.city = city if city else event.city
@@ -78,14 +77,16 @@ class Events(Resource):
     def delete(self):
         pass
 
+
 api.add_resource(Events, '/events')
+
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(128)) #varchar
+    city = db.Column(db.String(128))
     date = db.Column(db.Date)
     name = db.Column(db.String(256))
-    description = db.Column(db.Text) #text = nelimitat, nu are un anumit numar de parametri, precum String
+    description = db.Column(db.Text)
 
     def to_dict(self):
         d = {}
@@ -93,6 +94,7 @@ class Event(db.Model):
             if '_state' not in k:
                 d[k] = self.__dict__[k] if 'date' not in k else str(self.__dict__[k])
         return d
+
 
 with app.app_context():
     db.create_all()

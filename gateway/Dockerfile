@@ -1,14 +1,14 @@
-FROM python
+FROM python:3.9
 
-ENV EVENTS_SERVICE_URL=localhost
-ENV WEATHER_SERVICE_URL=localhost
+ENV EVENTS_SERVICE_URL=http://events:5000/events
+ENV WEATHER_SERVICE_URL=http://weather:5000/weather
 
-ENV DB_HOST=auth-db
+ENV DB_HOST=citybreak-db
 ENV DB_USER=auth
 ENV DB_PASSWORD=abc123
 
-ADD . /DockerProject/gateway
-WORKDIR /DockerProject/gateway
+ADD . /gateway
+WORKDIR /gateway
 
 RUN pip install -r requirements.txt
 

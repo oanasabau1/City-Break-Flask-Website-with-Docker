@@ -6,8 +6,8 @@ ENV DB_PASSWORD=abc123
 ENV PORT=5000
 ENV HOST=0.0.0.0
 
-ADD . /DockerProject/events
-WORKDIR /DockerProject/events
+ADD . /events
+WORKDIR /events
 
 RUN pip install -r requirements.txt
 

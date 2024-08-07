@@ -40,11 +40,13 @@ A relevant example for this application is:
 CURL -X POST -F "city=New York" -F "date=2024-08-05" -F "name=Beyonce World Tour" -F "description=Your favourite singer is back in town for a great concert!" http://localhost:5000/events
 ```
 
+If the user wants to run only one service, this can be done by using docker build commands in the specific folder.
+
 ## Further Development
 
 The CityBreak application can be significantly enhanced by incorporating several key features. 
 
-Adding authentication and authorization will secure access to the API, allowing for controlled and secure interactions with the system through methods such as OAuth 2.0 or JWT. This will enable role-based access control, ensuring that only authorized users can access or modify data. 
+Adding authentication and authorization will secure access to the API, allowing for controlled and secure interactions with the system. 
 
 Additionally, integrating Docker volumes for data persistence will prevent data loss during container restarts, providing a reliable storage solution for MySQL and Redis data.
 
